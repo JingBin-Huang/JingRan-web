@@ -98,6 +98,11 @@ const categories = [
   { label: '阅读', value: 'reading' }
 ];
 
+const publishStatus = [
+  { label: '已发布', value: true },
+  { label: '草稿', value: false }
+];
+
 </script>
 
 <script lang="ts">

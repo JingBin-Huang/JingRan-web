@@ -18,7 +18,11 @@
               </a-col>
               <a-col :span="8">
                 <a-form-item field="category" :label="$t('blog.form.category')">
-                  <a-input v-model="formModel.category" :placeholder="$t('blog.form.category.placeholder')" />
+                  <a-select v-model="formModel.category" :placeholder="$t('blog.form.category.placeholder')">
+                    <a-option v-for="item in categories" :key="item.value" :value="item.value">
+                      {{ item.label }}
+                    </a-option>
+                  </a-select>
                 </a-form-item>
               </a-col>
               <a-col :span="8">
@@ -33,7 +37,11 @@
               </a-col>
               <a-col :span="8">
                 <a-form-item field="is_published" :label="$t('blog.form.is_published')">
-                  <a-input v-model="formModel.is_published" :placeholder="$t('blog.form.is_published.placeholder')" />
+                  <a-select v-model="formModel.is_published" :placeholder="$t('blog.form.is_published.placeholder')">
+                    <a-option v-for="item in publishStatus" :key="item.value" :value="item.value">
+                      {{ item.label }}
+                    </a-option>
+                  </a-select>
                 </a-form-item>
               </a-col>
             </a-row>
@@ -121,26 +129,27 @@
         <template #cover_url="{ record }">
           <a-image fit="cover" :src="record.cover_url" :alt="record.title" width="80px" />
         </template>
+        <template #is_published="{ record }">
+          <template v-for="item in publishStatus">
+            <a-tag v-if="record.is_published === item.value" :color="item.value ? 'green' : 'red'">
+              {{ item.label }}
+            </a-tag>
+          </template>
+        </template>
         <template #operations="{ record }">
           <a-button v-permission="['admin']" type="text" size="small" @click="toView(record.id)">
             {{ $t('blog.columns.operations.view') }}
           </a-button>
 
-          <a-dropdown v-permission="['admin']">
-            <a-button type="text" size="small">更多</a-button>
-            <template #content>
-              <a-doption>
-                <a-button v-permission="['admin']" type="text" status="warning" @click="toDetail(record.id)">
-                {{ $t('blog.columns.operations.edit') }}
-              </a-button>
-              </a-doption>
-              <a-doption>
-                <a-button v-permission="['admin']" type="text" status="danger">
-                {{ $t('blog.columns.operations.delete') }}
-              </a-button>
-              </a-doption>
-            </template>
-          </a-dropdown>
+          <a-button v-permission="['admin']" type="text" status="warning" @click="toDetail(record.id)">
+            {{ $t('blog.columns.operations.edit') }}
+          </a-button>
+
+          <a-popconfirm content="是否删除？">
+            <a-button v-permission="['admin']" type="text" status="danger" @click="toDelete(record.id)">
+              {{ $t('blog.columns.operations.delete') }}
+            </a-button>
+          </a-popconfirm>
         </template>
       </a-table>
     </a-card>
@@ -347,12 +356,30 @@ const toView = (id: number) => {
   visible.value = true
   disabled.value = true
 }
+const toDelete = (id: number) => {}
 const handleOk = () => {
   visible.value = false
 }
 const handleCancel = () => {
   visible.value = false
 }
+
+const categories = [
+  { label: '综合', value: 'comprehensive' },
+  { label: '后端', value: 'backend' },
+  { label: '前端', value: 'frontend' },
+  { label: 'Android', value: 'android' },
+  { label: 'iOS', value: 'ios' },
+  { label: '人工智能', value: 'ai' },
+  { label: '开发工具', value: 'devtools' },
+  { label: '代码人生', value: 'code-life' },
+  { label: '阅读', value: 'reading' }
+];
+
+const publishStatus = [
+  { label: '已发布', value: true },
+  { label: '草稿', value: false }
+];
 </script>
 
 <script lang="ts">
