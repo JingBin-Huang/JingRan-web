@@ -1,47 +1,39 @@
 <template>
   <div class="container">
-    <Breadcrumb :items="['menu.list', 'menu.list.searchTable']" />
-    <a-card class="general-card" :title="$t('menu.list.searchTable')">
+    <Breadcrumb :items="['menu.list', 'menu.blog.list']" />
+    <a-card class="general-card" :title="$t('menu.blog.list')">
       <a-row>
         <a-col :flex="1">
           <a-form :model="formModel" :label-col-props="{ span: 6 }" :wrapper-col-props="{ span: 18 }" label-align="left">
             <a-row :gutter="16">
               <a-col :span="8">
-                <a-form-item field="number" :label="$t('searchTable.form.number')">
-                  <a-input v-model="formModel.number" :placeholder="$t('searchTable.form.number.placeholder')" />
+                <a-form-item field="title" :label="$t('blog.form.title')">
+                  <a-input v-model="formModel.title" :placeholder="$t('blog.form.title.placeholder')" />
                 </a-form-item>
               </a-col>
               <a-col :span="8">
-                <a-form-item field="name" :label="$t('searchTable.form.name')">
-                  <a-input v-model="formModel.name" :placeholder="$t('searchTable.form.name.placeholder')" />
+                <a-form-item field="summary" :label="$t('blog.form.summary')">
+                  <a-input v-model="formModel.summary" :placeholder="$t('blog.form.summary.placeholder')" />
                 </a-form-item>
               </a-col>
               <a-col :span="8">
-                <a-form-item field="contentType" :label="$t('searchTable.form.contentType')">
-                  <a-select
-                    v-model="formModel.contentType"
-                    :options="contentTypeOptions"
-                    :placeholder="$t('searchTable.form.selectDefault')"
-                  />
+                <a-form-item field="category" :label="$t('blog.form.category')">
+                  <a-input v-model="formModel.category" :placeholder="$t('blog.form.category.placeholder')" />
                 </a-form-item>
               </a-col>
               <a-col :span="8">
-                <a-form-item field="filterType" :label="$t('searchTable.form.filterType')">
-                  <a-select
-                    v-model="formModel.filterType"
-                    :options="filterTypeOptions"
-                    :placeholder="$t('searchTable.form.selectDefault')"
-                  />
+                <a-form-item field="author" :label="$t('blog.form.author')">
+                  <a-input v-model="formModel.author" :placeholder="$t('blog.form.author.placeholder')" />
                 </a-form-item>
               </a-col>
               <a-col :span="8">
-                <a-form-item field="createdTime" :label="$t('searchTable.form.createdTime')">
-                  <a-range-picker v-model="formModel.createdTime" style="width: 100%" />
+                <a-form-item field="created_at" :label="$t('blog.form.created_at')">
+                  <a-range-picker v-model="formModel.created_at" style="width: 100%" />
                 </a-form-item>
               </a-col>
               <a-col :span="8">
-                <a-form-item field="status" :label="$t('searchTable.form.status')">
-                  <a-select v-model="formModel.status" :options="statusOptions" :placeholder="$t('searchTable.form.selectDefault')" />
+                <a-form-item field="is_published" :label="$t('blog.form.is_published')">
+                  <a-input v-model="formModel.is_published" :placeholder="$t('blog.form.is_published.placeholder')" />
                 </a-form-item>
               </a-col>
             </a-row>
@@ -54,13 +46,13 @@
               <template #icon>
                 <icon-search />
               </template>
-              {{ $t('searchTable.form.search') }}
+              {{ $t('blog.form.search') }}
             </a-button>
             <a-button @click="reset">
               <template #icon>
                 <icon-refresh />
               </template>
-              {{ $t('searchTable.form.reset') }}
+              {{ $t('blog.form.reset') }}
             </a-button>
           </a-space>
         </a-col>
@@ -75,22 +67,9 @@
               </template>
               {{ $t('searchTable.operation.create') }}
             </a-button>
-            <a-upload action="/">
-              <template #upload-button>
-                <a-button>
-                  {{ $t('searchTable.operation.import') }}
-                </a-button>
-              </template>
-            </a-upload>
           </a-space>
         </a-col>
         <a-col :span="12" style="display: flex; align-items: center; justify-content: end">
-          <a-button>
-            <template #icon>
-              <icon-download />
-            </template>
-            {{ $t('searchTable.operation.download') }}
-          </a-button>
           <a-tooltip :content="$t('searchTable.actions.refresh')">
             <div class="action-icon" @click="search"><icon-refresh size="18" /></div>
           </a-tooltip>
@@ -114,7 +93,7 @@
                       <icon-drag-arrow />
                     </div>
                     <div>
-                      <a-checkbox v-model="item.checked" @change="handleChange($event, item as TableColumnData, index)"></a-checkbox>
+                      <a-checkbox v-model="item.checked" @change="handleChange($event, item, index)"></a-checkbox>
                     </div>
                     <div class="title">
                       {{ item.title === '#' ? '序列号' : item.title }}
@@ -139,41 +118,29 @@
         <template #index="{ rowIndex }">
           {{ rowIndex + 1 + (pagination.current - 1) * pagination.pageSize }}
         </template>
-        <template #contentType="{ record }">
-          <a-space>
-            <a-avatar v-if="record.contentType === 'img'" :size="16" shape="square">
-              <img
-                alt="avatar"
-                src="//p3-armor.byteimg.com/tos-cn-i-49unhts6dw/581b17753093199839f2e327e726b157.svg~tplv-49unhts6dw-image.image"
-              />
-            </a-avatar>
-            <a-avatar v-else-if="record.contentType === 'horizontalVideo'" :size="16" shape="square">
-              <img
-                alt="avatar"
-                src="//p3-armor.byteimg.com/tos-cn-i-49unhts6dw/77721e365eb2ab786c889682cbc721c1.svg~tplv-49unhts6dw-image.image"
-              />
-            </a-avatar>
-            <a-avatar v-else :size="16" shape="square">
-              <img
-                alt="avatar"
-                src="//p3-armor.byteimg.com/tos-cn-i-49unhts6dw/ea8b09190046da0ea7e070d83c5d1731.svg~tplv-49unhts6dw-image.image"
-              />
-            </a-avatar>
-            {{ $t(`searchTable.form.contentType.${record.contentType}`) }}
-          </a-space>
-        </template>
-        <template #filterType="{ record }">
-          {{ $t(`searchTable.form.filterType.${record.filterType}`) }}
-        </template>
-        <template #status="{ record }">
-          <span v-if="record.status === 'offline'" class="circle"></span>
-          <span v-else class="circle pass"></span>
-          {{ $t(`searchTable.form.status.${record.status}`) }}
+        <template #cover_url="{ record }">
+          <a-image fit="cover" :src="record.cover_url" :alt="record.title" width="80px" />
         </template>
         <template #operations>
           <a-button v-permission="['admin']" type="text" size="small">
-            {{ $t('searchTable.columns.operations.view') }}
+            {{ $t('blog.columns.operations.view') }}
           </a-button>
+
+          <a-dropdown v-permission="['admin']">
+            <a-button type="text" size="small">更多</a-button>
+            <template #content>
+              <a-doption>
+                <a-button v-permission="['admin']" type="text" status="warning">
+                {{ $t('blog.columns.operations.edit') }}
+              </a-button>
+              </a-doption>
+              <a-doption>
+                <a-button v-permission="['admin']" type="text" status="danger">
+                {{ $t('blog.columns.operations.delete') }}
+              </a-button>
+              </a-doption>
+            </template>
+          </a-dropdown>
         </template>
       </a-table>
     </a-card>
@@ -181,10 +148,9 @@
 </template>
 
 <script lang="ts" setup>
-import { PolicyParams, PolicyRecord, queryPolicyList } from '@/api/list'
+import { BlogParams, BlogRecord, queryBlogList } from '@/api/blog'
 import useLoading from '@/hooks/loading'
 import { Pagination } from '@/types/global'
-import type { SelectOptionData } from '@arco-design/web-vue/es/select/interface'
 import type { TableColumnData } from '@arco-design/web-vue/es/table/interface'
 import cloneDeep from 'lodash/cloneDeep'
 import Sortable from 'sortablejs'
@@ -196,17 +162,18 @@ type Column = TableColumnData & { checked?: true }
 
 const generateFormModel = () => {
   return {
-    number: '',
-    name: '',
-    contentType: '',
-    filterType: '',
-    createdTime: [],
-    status: '',
+    title: '',
+    summary: '',
+    cover_url: '',
+    category: '',
+    author: '',
+    created_at: [],
+    is_published: null,
   }
 }
 const { loading, setLoading } = useLoading(true)
 const { t } = useI18n()
-const renderData = ref<PolicyRecord[]>([])
+const renderData = ref<BlogRecord[]>([])
 const formModel = ref(generateFormModel())
 const cloneColumns = ref<Column[]>([])
 const showColumns = ref<Column[]>([])
@@ -215,7 +182,7 @@ const size = ref<SizeProps>('medium')
 
 const basePagination: Pagination = {
   current: 1,
-  pageSize: 20,
+  pageSize: 10,
 }
 const pagination = reactive({
   ...basePagination,
@@ -238,86 +205,55 @@ const densityList = computed(() => [
     value: 'large',
   },
 ])
-const columns = computed<TableColumnData[]>(() => [
+const columns = computed(() => [
   {
-    title: t('searchTable.columns.index'),
+    title: t('blog.columns.index'),
     dataIndex: 'index',
     slotName: 'index',
   },
   {
-    title: t('searchTable.columns.number'),
-    dataIndex: 'number',
+    title: t('blog.form.title'),
+    dataIndex: 'title',
   },
   {
-    title: t('searchTable.columns.name'),
-    dataIndex: 'name',
+    title: t('blog.form.summary'),
+    dataIndex: 'summary',
   },
   {
-    title: t('searchTable.columns.contentType'),
-    dataIndex: 'contentType',
-    slotName: 'contentType',
+    title: t('blog.form.category'),
+    dataIndex: 'category',
+    slotName: 'category',
   },
   {
-    title: t('searchTable.columns.filterType'),
-    dataIndex: 'filterType',
+    title: t('blog.form.cover_url'),
+    dataIndex: 'cover_url',
+    slotName: 'cover_url',
   },
   {
-    title: t('searchTable.columns.count'),
-    dataIndex: 'count',
+    title: t('blog.form.author'),
+    dataIndex: 'author',
   },
   {
-    title: t('searchTable.columns.createdTime'),
-    dataIndex: 'createdTime',
+    title: t('blog.form.created_at'),
+    dataIndex: 'created_at',
   },
   {
-    title: t('searchTable.columns.status'),
-    dataIndex: 'status',
-    slotName: 'status',
+    title: t('blog.form.is_published'),
+    dataIndex: 'is_published',
+    slotName: 'is_published',
+    align: 'center',
   },
   {
-    title: t('searchTable.columns.operations'),
+    title: t('blog.form.operations'),
     dataIndex: 'operations',
     slotName: 'operations',
+    align: 'center',
   },
 ])
-const contentTypeOptions = computed<SelectOptionData[]>(() => [
-  {
-    label: t('searchTable.form.contentType.img'),
-    value: 'img',
-  },
-  {
-    label: t('searchTable.form.contentType.horizontalVideo'),
-    value: 'horizontalVideo',
-  },
-  {
-    label: t('searchTable.form.contentType.verticalVideo'),
-    value: 'verticalVideo',
-  },
-])
-const filterTypeOptions = computed<SelectOptionData[]>(() => [
-  {
-    label: t('searchTable.form.filterType.artificial'),
-    value: 'artificial',
-  },
-  {
-    label: t('searchTable.form.filterType.rules'),
-    value: 'rules',
-  },
-])
-const statusOptions = computed<SelectOptionData[]>(() => [
-  {
-    label: t('searchTable.form.status.online'),
-    value: 'online',
-  },
-  {
-    label: t('searchTable.form.status.offline'),
-    value: 'offline',
-  },
-])
-const fetchData = async (params: PolicyParams = { current: 1, pageSize: 20 }) => {
+const fetchData = async (params: BlogParams = { current: 1, pageSize: 20 }) => {
   setLoading(true)
   try {
-    const { data } = await queryPolicyList(params)
+    const { data } = await queryBlogList(params)
     renderData.value = data.list
     pagination.current = params.current
     pagination.total = data.total
@@ -332,7 +268,7 @@ const search = () => {
   fetchData({
     ...basePagination,
     ...formModel.value,
-  } as unknown as PolicyParams)
+  } as unknown as BlogParams)
 }
 const onPageChange = (current: number) => {
   fetchData({ ...basePagination, current })
@@ -392,6 +328,11 @@ watch(
 )
 </script>
 
+<script lang="ts">
+export default {
+  name: 'BlogList',
+}
+</script>
 
 <style scoped lang="less">
 .container {

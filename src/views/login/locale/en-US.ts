@@ -1,5 +1,6 @@
 export default {
-  'login.form.title': 'Login to Vue Admin Arco',
+  'login.form.title': 'Login to JINGRAN',
+  'login.form.subtitle': '',
   'login.form.userName.errMsg': 'Username cannot be empty',
   'login.form.password.errMsg': 'Password cannot be empty',
   'login.form.login.errMsg': 'Login error, refresh and try again',

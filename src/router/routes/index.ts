@@ -5,8 +5,12 @@ const externalModules = import.meta.glob('./externalModules/*.ts', {
   eager: true,
 })
 
+const useModules: string[] = ['dashboard', 'blog', 'system', 'user']
+
 function formatModules(_modules: any, result: RouteRecordNormalized[]) {
   Object.keys(_modules).forEach((key) => {
+    const has = useModules.some((item) => key.includes(item))
+    if (!has) return
     const defaultModule = _modules[key].default
     if (!defaultModule) return
     const moduleList = Array.isArray(defaultModule) ? [...defaultModule] : [defaultModule]

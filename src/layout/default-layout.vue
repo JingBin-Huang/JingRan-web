@@ -23,7 +23,7 @@
                   alt="logo"
                   src="//p3-armor.byteimg.com/tos-cn-i-49unhts6dw/dfdba5317c0c20ce20e64fac803d52bc.svg~tplv-49unhts6dw-image.image"
                 />
-                <a-typography-title>Vue Admin Arco</a-typography-title>
+                <a-typography-title>井然</a-typography-title>
               </a-space>
             </div>
             <Menu />
@@ -45,7 +45,7 @@
           <a-layout-content>
             <PageLayout />
           </a-layout-content>
-          <Footer v-if="footer" />
+          <!-- <Footer v-if="footer" /> -->
         </a-layout>
       </a-layout>
     </a-layout>
@@ -53,7 +53,6 @@
 </template>
 
 <script lang="ts" setup>
-import Footer from '@/components/footer/index.vue'
 import Menu from '@/components/menu/index.vue'
 import NavBar from '@/components/navbar/index.vue'
 import TabBar from '@/components/tab-bar/index.vue'

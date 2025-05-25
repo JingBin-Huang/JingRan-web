@@ -25,6 +25,11 @@ import locale500 from '@/views/exception/500/locale/en-US'
 
 import localeUserInfo from '@/views/user/info/locale/en-US'
 import localeUserSetting from '@/views/user/setting/locale/en-US'
+
+import localBlogList from '@/views/blog/list/locale/en-US'
+
+import localSystemDictionaryList from '@/views/system/dictionary/locale/en-US'
+
 /** simple end */
 import localeSettings from './en-US/settings'
 
@@ -40,6 +45,8 @@ export default {
   'menu.profile': 'Profile',
   'menu.visualization': 'Data Visualization',
   'menu.user': 'User Center',
+  'menu.blog': 'Blog',
+  'menu.system': 'System Management',
   'menu.arcoWebsite': 'Arco Design',
   'menu.faq': 'FAQ',
   'navbar.docs': 'Docs',
@@ -64,5 +71,7 @@ export default {
   ...locale500,
   ...localeUserInfo,
   ...localeUserSetting,
+  ...localBlogList,
+  ...localSystemDictionaryList,
   /** simple end */
 }

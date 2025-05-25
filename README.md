@@ -3,7 +3,7 @@
 
 <br />
 
-  <h1>vue-admin-arco</h1>
+<h1>vue-admin-arco</h1>
 
 <br />
 
@@ -16,22 +16,6 @@
 [![license](https://img.shields.io/github/license/zxwk1998/vue-admin-arco?style=flat-square)](https://en.wikipedia.org/wiki/MIT_License)
 
 </div>
-
-## 🔗 免费演示地址
-
-- [🚀 Vue Admin Arco 演示地址（vue3.x + vite 4.x + arco-design 2.x 免费版本）](https://vuejs-core.cn/vue-admin-arco)
-
-## 🔗 付费演示地址
-
-- [🚀 Vue Admin Pro 演示地址（vue2.x + element-ui 2.x 付费版本，支持 PC、平板、手机）](https://vuejs-core.cn/admin-pro/)
-
-- [🚀 Vue Admin Plus 演示地址（vue3.x + element-plus 2.x 付费版本，支持 PC、平板、手机）](https://vuejs-core.cn/admin-plus/)
-
-- [🚀 Vue Shop Vite 演示地址（vue3.x + vite 5.x + element-plus 2.x 付费版本，支持 PC、平板、手机）](https://vuejs-core.cn/shop-vite/)
-
-- [📌 Vue Admin Pro 及 Vue Admin Plus 购买地址](https://vuejs-core.cn/authorization/)
-
-- [📌 Vue Shop Vite 购买地址](https://vuejs-core.cn/authorization/shop-vite.html)
 
 ## ✨ Features
 
