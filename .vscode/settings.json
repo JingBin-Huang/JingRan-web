@@ -3,7 +3,7 @@
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "editor.quickSuggestions": {
-    "strings": true
+    "strings": "on"
   },
   "workbench.colorTheme": "One Monokai",
   "editor.tabSize": 2,

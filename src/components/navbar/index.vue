@@ -132,7 +132,6 @@ import useLocale from '@/hooks/locale'
 import useUser from '@/hooks/user'
 import { LOCALE_OPTIONS } from '@/locale'
 import { useAppStore, useUserStore } from '@/store'
-import { Message } from '@arco-design/web-vue'
 import { useDark, useFullscreen, useToggle } from '@vueuse/core'
 import { computed, inject, ref } from 'vue'
 import MessageBox from '../message-box/index.vue'
@@ -189,17 +188,7 @@ const setDropDownVisible = () => {
   })
   triggerBtn.value.dispatchEvent(event)
 }
-const switchRoles = async () => {
-  const res = await userStore.switchRoles()
-  Message.success(res as string)
-}
 const toggleDrawerMenu = inject('toggleDrawerMenu') as () => void
-const switchGit = () => {
-  window.open('https://github.com/zxwk1998/vue-admin-arco')
-}
-const open = (val: string) => {
-  window.open(`https://vuejs-core.cn/${val}`)
-}
 </script>
 
 <style scoped lang="less">

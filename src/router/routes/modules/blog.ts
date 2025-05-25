@@ -14,12 +14,23 @@ const BLOG: AppRouteRecordRaw = {
   children: [
     {
       path: 'list',
-      name: 'list',
+      name: 'BlogList',
       component: () => import('@/views/blog/list/index.vue'),
       meta: {
         locale: 'menu.blog.list',
         requiresAuth: true,
         roles: ['*'],
+      },
+    },
+    {
+      path: 'detail',
+      name: 'BlogDetail',
+      component: () => import('@/views/blog/detail/index.vue'),
+      meta: {
+        locale: 'menu.blog.detail',
+        requiresAuth: true,
+        roles: ['*'],
+        hideInMenu: true,
       },
     },
   ],

@@ -26,6 +26,7 @@ import locale500 from '@/views/exception/500/locale/en-US'
 import localeUserInfo from '@/views/user/info/locale/en-US'
 import localeUserSetting from '@/views/user/setting/locale/en-US'
 
+import localBlogDetail from '@/views/blog/detail/locale/en-US'
 import localBlogList from '@/views/blog/list/locale/en-US'
 
 import localSystemDictionaryList from '@/views/system/dictionary/locale/en-US'
@@ -72,6 +73,7 @@ export default {
   ...localeUserInfo,
   ...localeUserSetting,
   ...localBlogList,
+  ...localBlogDetail,
   ...localSystemDictionaryList,
   /** simple end */
 }

@@ -61,7 +61,7 @@
       <a-row style="margin-bottom: 16px">
         <a-col :span="12">
           <a-space>
-            <a-button type="primary">
+            <a-button type="primary" @click="toDetail">
               <template #icon>
                 <icon-plus />
               </template>
@@ -121,8 +121,8 @@
         <template #cover_url="{ record }">
           <a-image fit="cover" :src="record.cover_url" :alt="record.title" width="80px" />
         </template>
-        <template #operations>
-          <a-button v-permission="['admin']" type="text" size="small">
+        <template #operations="{ record }">
+          <a-button v-permission="['admin']" type="text" size="small" @click="toView(record.id)">
             {{ $t('blog.columns.operations.view') }}
           </a-button>
 
@@ -130,7 +130,7 @@
             <a-button type="text" size="small">更多</a-button>
             <template #content>
               <a-doption>
-                <a-button v-permission="['admin']" type="text" status="warning">
+                <a-button v-permission="['admin']" type="text" status="warning" @click="toDetail(record.id)">
                 {{ $t('blog.columns.operations.edit') }}
               </a-button>
               </a-doption>
@@ -145,12 +145,20 @@
       </a-table>
     </a-card>
   </div>
+
+  <a-drawer width="80%" :visible="visible" @ok="handleOk" @cancel="handleCancel" unmountOnClose>
+    <template #title>
+      博客详情
+    </template>
+    <BlogDetail :disabled="disabled"></BlogDetail>
+  </a-drawer>
 </template>
 
 <script lang="ts" setup>
 import { BlogParams, BlogRecord, queryBlogList } from '@/api/blog'
 import useLoading from '@/hooks/loading'
 import { Pagination } from '@/types/global'
+import BlogDetail from '@/views/blog/detail/index.vue'
 import type { TableColumnData } from '@arco-design/web-vue/es/table/interface'
 import cloneDeep from 'lodash/cloneDeep'
 import Sortable from 'sortablejs'
@@ -326,6 +334,25 @@ watch(
   },
   { deep: true, immediate: true }
 )
+
+const visible = ref(false)
+const disabled = ref(false)
+const toDetail = (id?: number) => {
+  const url = id ? `/blog/detail/${id}` : '/blog/detail'
+  visible.value = true
+  disabled.value = false
+}
+const toView = (id: number) => {
+  const url = `/blog/detail/${id}`
+  visible.value = true
+  disabled.value = true
+}
+const handleOk = () => {
+  visible.value = false
+}
+const handleCancel = () => {
+  visible.value = false
+}
 </script>
 
 <script lang="ts">

@@ -14,4 +14,5 @@ export interface AppRouteRecordRaw {
   props?: Record<string, any>
   beforeEnter?: NavigationGuard | NavigationGuard[]
   fullPath?: string
+  filter?: boolean
 }
